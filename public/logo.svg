@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<defs>
+<linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff9fc9"/>
+<stop offset="100%" stop-color="#9b7bff"/>
+</linearGradient>
+</defs>
+<circle cx="100" cy="100" r="95" fill="url(#badgeGrad)"/>
+<path d="M70 65 A50 50 0 1 0 95 168 A64 64 0 1 1 70 65 Z" fill="#ffffff" opacity="0.92"/>
+<circle cx="128" cy="65" r="4.5" fill="#ffffff"/>
+<circle cx="150" cy="95" r="3.2" fill="#ffffff"/>
+<circle cx="122" cy="120" r="2.8" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SkyVora</title>
+
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="skyvora.css">
+</head>
+
+<body id="body">
+
+<div class="container">
+    <img src="logo.svg" alt="SkyVora logo" class="app-logo">
+    <h2>Weather</h2>
+
+    <div class="input-group">
+        <input type="text" id="locationInput" required>
+        <label>Enter City</label>
+    </div>
+
+    <button onclick="getWeather()">Check</button>
+
+    <div id="weatherResult">
+        <h3 id="city"></h3>
+        <img id="icon" src="">
+        <p id="temp"></p>
+        <p id="condition"></p>
+
+        <div class="info">
+            <p id="humidity"></p>
+            <p id="wind"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+async function getWeather() {
+    const location = document.getElementById("locationInput").value;
+
+    if (location === "") {
+        alert("Enter city name");
+        return;
+    }
+
+    // Calls our own server, not weatherapi.com directly.
+    // The real API key stays hidden on the server side.
+    const url = `/api/weather?location=${encodeURIComponent(location)}`;
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error?.message || "Could not find that location");
+            return;
+        }
+
+        document.getElementById("city").innerText =
+            data.location.name + ", " + data.location.country;
+
+        document.getElementById("temp").innerText =
+            "🌡 " + data.current.temp_c + "°C";
+
+        document.getElementById("condition").innerText =
+            data.current.condition.text;
+
+        document.getElementById("humidity").innerText =
+            "💧 Humidity: " + data.current.humidity + "%";
+
+        document.getElementById("wind").innerText =
+            "🌬 Wind: " + data.current.wind_kph + " km/h";
+
+        document.getElementById("icon").src =
+            "https:" + data.current.condition.icon;
+
+        // 🔥 Dynamic Background Images
+        const condition = data.current.condition.text.toLowerCase();
+        const body = document.getElementById("body");
+
+        if (condition.includes("sun") || condition.includes("clear")) {
+            body.style.backgroundImage = "url('https://images.unsplash.com/photo-1501973801540-537f08ccae7b')";
+        } 
+        else if (condition.includes("cloud")) {
+            body.style.backgroundImage = "url('https://images.unsplash.com/photo-1501630834273-4b5604d2ee31')";
+        } 
+        else if (condition.includes("rain")) {
+            body.style.backgroundImage = "url('https://images.unsplash.com/photo-1501696461415-6bd6660c6742')";
+        } 
+        else {
+            body.style.backgroundImage = "url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63')";
+        }
+
+        body.style.backgroundSize = "cover";
+        body.style.backgroundPosition = "center";
+
+    } catch (error) {
+        alert("Error fetching data");
+        console.log(error);
+    }
+}
+</script>
+
+</body>
+</html>
