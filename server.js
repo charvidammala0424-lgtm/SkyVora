@@ -23,7 +23,7 @@ if (!WEATHER_API_KEY) {
 }
 
 // Serve the front-end files (skyvora.html, skyvora.css) as static assets
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
 // The only endpoint the browser is allowed to call.
 // It forwards the request to weatherapi.com using the hidden key.
